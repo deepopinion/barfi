@@ -83,29 +83,31 @@ def st_barfi(base_blocks: Union[List[Block], Dict], load_schema: str = None, com
                                    load_schema_names=schema_names_in_db, load_schema_name=load_schema, editor_setting=editor_setting,
                                    key=key, default={'command': 'skip', 'editor_state': {}})
 
-    if _from_client['command'] == 'execute':
+    if "command" in _from_client and _from_client['command'] == 'execute':
         if compute_engine:
             _ce = ComputeEngine(blocks=base_blocks_list)
             _ce.add_editor_state(_from_client['editor_state'])
             _ce._map_block_link()
             _ce._execute_compute()
-            return _ce.get_result()
+            return None #_ce.get_result()
         else:
             _ce = ComputeEngine(blocks=base_blocks_list)
             _ce.add_editor_state(_from_client['editor_state'])
             _ce._map_block_link()
             # return _ce.get_result()
-            return _from_client
-    if _from_client['command'] == 'save':
-        save_schema(
-            schema_name=_from_client['schema_name'], schema_data=_from_client['editor_state'])
-    if _from_client['command'] == 'load':
-        load_schema = _from_client['schema_name']
-        editor_schema = load_schema_name(load_schema)
-    else:
-        pass
+            return None #_from_client
+    # if _from_client['command'] == 'save':
+        # save_schema(
+        #     schema_name=_from_client['schema_name'], schema_data=_from_client['editor_state'])
 
-    return {}
+    return _from_client['editor_state']
+    # if _from_client['command'] == 'load':
+    #     load_schema = _from_client['schema_name']
+    #     editor_schema = load_schema_name(load_schema)
+    # else:
+    #     pass
+
+    # return None
 
 
 def barfi_schemas():

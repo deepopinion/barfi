@@ -1,4 +1,5 @@
 import pickle
+import json
 from typing import Dict
 
 editor_preset = {'nodes': [{'type': 'Feed', 'id': 'node_16421654445600', 'name': 'Feed-1', 'options': [], 'state': {}, 'interfaces': [['Output 1', {'id': 'ni_16421654445601', 'value': None}]], 'position': {'x': 53.10270771798835, 'y': 103.53598351788409}, 'width': 200, 'twoColumn': False, 'customClasses': ''}, {'type': 'Feed', 'id': 'node_16421655709876', 'name': 'Feed-2', 'options': [], 'state': {}, 'interfaces': [['Output 1', {'id': 'ni_16421655709877', 'value': None}]], 'position': {'x': -110.96319142010879, 'y': 354.1711813273622}, 'width': 200, 'twoColumn': False, 'customClasses': ''}, {'type': 'Splitter', 'id': 'node_16421655753058', 'name': 'Splitter-1', 'options': [], 'state': {}, 'interfaces': [['Input 1', {'id': 'ni_16421655753069', 'value': None}], ['Output 1', {'id': 'ni_164216557530610', 'value': None}], ['Output 2', {'id': 'ni_164216557530611', 'value': None}]], 'position': {'x': 160.08999419005372, 'y': 242.060177855096}, 'width': 200, 'twoColumn': False, 'customClasses': ''}, {'type': 'Mixer', 'id': 'node_164216557860312', 'name': 'Mixer-1',
@@ -18,26 +19,17 @@ def load_schemas():
 
 
 def save_schema(schema_name: str, schema_data: Dict):
-    try:
-        with open('schemas.barfi', 'rb') as handle_read:
-            schemas = pickle.load(handle_read)
-    except FileNotFoundError:
-        schemas = {}
-
-    with open('schemas.barfi', 'wb') as handle_write:
-        schemas[schema_name] = schema_data
-        pickle.dump(schemas, handle_write, protocol=pickle.HIGHEST_PROTOCOL)
+    with open(f"{schema_name}.json", "w") as f:
+        schema_json = json.dumps(schema_data)
+        f.write(schema_json)
+        
 
 
 def load_schema_name(schema_name: str) -> Dict:
-    schemas_barfi = load_schemas()
-    if schema_name in schemas_barfi['schema_names']:
-        schema = schemas_barfi['schemas'][schema_name]
-        return schema
-    else:
-        raise ValueError(
-            f'Schema :{schema_name}: not found in the saved schemas')
-
+    # load json
+    with open(f"{schema_name}.json", "r") as f:
+        schema_json = json.load(f)
+    return schema_json
 
 def delete_schema(schema_name: str):
     try:

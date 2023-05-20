@@ -77,8 +77,9 @@
         <!-- Block Link Editor -->
         <baklava-editor :plugin="viewPlugin" />
         <div class="button-menu">
-            <button @click="menuModal = !menuModal">Menu</button>
-            <button @click="executeEditorData">Execute</button>
+            <!-- <button @click="menuModal = !menuModal">Menu</button> -->
+            <button @click="saveEditorData">Update</button>
+            <button @click="executeEditorData">Run Automation Flow</button>
         </div>
     </div>
 </template>
@@ -122,7 +123,7 @@ export default {
         this.editor.use(this.engine);
 
         // Show a minimap in the top right corner
-        this.viewPlugin.enableMinimap = true;
+        this.viewPlugin.enableMinimap = false;
 
         console.log(this.args);
         // Read the infos on the node passed in from Streamlit
@@ -174,12 +175,12 @@ export default {
         },
         saveEditorData() {
             Streamlit.setComponentValue({
-                command: "save",
-                schema_name: this.saveSchemaName,
+                // command: "save",
+                schema_name: "default", //this.saveSchemaName,
                 editor_state: this.editor.save(),
             });
-            this.saveSchemaName = "";
-            this.menuModal = !this.menuModal;
+            // this.saveSchemaName = "";
+            // this.menuModal = !this.menuModal;
         },
         activateTab(tabName) {
             if (tabName === "listTab") {
