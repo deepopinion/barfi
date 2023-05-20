@@ -78,8 +78,8 @@
         <baklava-editor :plugin="viewPlugin" />
         <div class="button-menu">
             <!-- <button @click="menuModal = !menuModal">Menu</button> -->
-            <button @click="saveEditorData">Update</button>
-            <button @click="executeEditorData">Run Automation Flow</button>
+            <button @click="saveEditorData" style="height:30px;"><b>Save</b></button>
+            <button @click="executeEditorData" style="height:30px;"><b>Run Automation</b></button>
         </div>
     </div>
 </template>

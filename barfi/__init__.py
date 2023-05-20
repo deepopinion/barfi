@@ -46,12 +46,8 @@ else:
 # "name" argument without having it get recreated.
 
 
-def st_barfi(base_blocks: Union[List[Block], Dict], load_schema: str = None, compute_engine: bool = True, key=None):
-    if load_schema:
-        editor_schema = load_schema_name(load_schema)
-    else:
-        editor_schema = None
-
+def st_barfi(base_blocks: Union[List[Block], Dict], load_schema: Dict = None, compute_engine: bool = True, key=None):
+    editor_schema = load_schema
     schemas_in_db = load_schemas()
     schema_names_in_db = schemas_in_db['schema_names']
 
@@ -89,25 +85,15 @@ def st_barfi(base_blocks: Union[List[Block], Dict], load_schema: str = None, com
             _ce.add_editor_state(_from_client['editor_state'])
             _ce._map_block_link()
             _ce._execute_compute()
-            return None #_ce.get_result()
+            return None
         else:
             _ce = ComputeEngine(blocks=base_blocks_list)
             _ce.add_editor_state(_from_client['editor_state'])
             _ce._map_block_link()
-            # return _ce.get_result()
-            return None #_from_client
-    # if _from_client['command'] == 'save':
-        # save_schema(
-        #     schema_name=_from_client['schema_name'], schema_data=_from_client['editor_state'])
+            return None
 
     return _from_client['editor_state']
-    # if _from_client['command'] == 'load':
-    #     load_schema = _from_client['schema_name']
-    #     editor_schema = load_schema_name(load_schema)
-    # else:
-    #     pass
 
-    # return None
 
 
 def barfi_schemas():
