@@ -140,7 +140,7 @@ class Block(object):
         assert isinstance(
             type, str), "Error: 'type' argument should be of type string."
         assert type in ['checkbox', 'input', 'integer', 'number', 'select', 'slider',
-                        'display'], 'Error: Option "type" is not of standard Option interface parameter.'
+                        'display'], f'Error: Option "{type}" is not of standard Option interface parameter.'
 
         if name in self._options:
             raise ValueError(
